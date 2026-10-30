@@ -1,0 +1,176 @@
+.cinza-slider,
+.cinza-slider .flickity-viewport {
+	transition: 0.3s ease-in-out;
+	-webkit-transition: 0.3s ease-in-out;
+	-moz-transition: 0.3s ease-in-out;
+	-o-transition: 0.3s ease-in-out;
+
+}
+
+.cinza-slider .static-cell,
+.cinza-slider .slider-cell-content,
+.cinza-slider .slider-cell-link {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cinza-slider .static-cell {
+    z-index: 1;
+}
+
+.cinza-slider.is-draggable .static-cell {
+	pointer-events: none;
+}
+
+.cinza-slider .slider-cell {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cinza-slider .slider-cell>picture,
+.cinza-slider .slider-cell .slider-cell-image {
+    width: 100%;
+	height: 100%;
+    object-position: center;
+    display: block;
+}
+
+.cinza-slider .slider-cell-content-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.cinza-slider .slider-cell-link {
+    z-index: 2;
+}
+
+.cinza-slider .slider-cell-content,
+.cinza-slider .flickity-prev-next-button, 
+.cinza-slider .flickity-page-dots {
+    z-index: 2;
+}
+
+.cinza-slider .flickity-prev-next-button {
+    color: #FFF;
+    background: transparent;
+    transition: 0.3s all ease-in-out;
+}
+
+.cinza-slider .flickity-prev-next-button:hover {
+	opacity: 1;
+    color: #FFF;
+    background: transparent;
+}
+
+.cinza-slider .flickity-page-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, 0%);
+    width: auto;
+    transition: 0.3s all ease-in-out;
+}
+
+.cinza-slider .flickity-page-dots .dot {
+	opacity: 1;
+    background: rgba(255, 255, 255, 0.5);
+    transition: 0.3s all ease-in-out;
+}
+
+.cinza-slider .flickity-page-dots .dot:hover, 
+.cinza-slider .flickity-page-dots .dot.is-selected {
+    background: #FFF;
+}
+
+a.slider-cell-link {
+	transition: 0.3s all ease-in-out;
+}
+
+.cinza-slider .slider-cell[aria-hidden=true] a[href],
+.cinza-slider .slider-cell[aria-hidden=true] area[href], 
+.cinza-slider .slider-cell[aria-hidden=true] input:not([disabled]), 
+.cinza-slider .slider-cell[aria-hidden=true] select:not([disabled]), 
+.cinza-slider .slider-cell[aria-hidden=true] textarea:not([disabled]), 
+.cinza-slider .slider-cell[aria-hidden=true] button:not([disabled]), 
+.cinza-slider .slider-cell[aria-hidden=true] [tabindex]:not([disabled]), 
+.cinza-slider .slider-cell[aria-hidden=true] [contenteditable=true]:not([disabled]){
+    visibility: hidden;
+}
+
+/* Optional autoplay control. These rules affect only sliders with the toggle on. */
+.cinza-slider[data-cinza-play-pause="true"] {
+    position: relative;
+}
+
+.cinza-slider .cinza-slider-play-pause {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    line-height: 1;
+    touch-action: manipulation;
+}
+
+.cinza-slider .cinza-slider-play-pause[hidden] {
+    display: none;
+}
+
+.cinza-slider .cinza-slider-play-pause:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+.cinza-slider .cinza-slider-play-pause:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.cinza-slider .cinza-slider-play-pause svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+.cinza-slider .cinza-slider-play-pause[data-cinza-state="playing"] .cinza-play-icon,
+.cinza-slider .cinza-slider-play-pause[data-cinza-state="stopped"] .cinza-pause-icon {
+    display: none;
+}
+
+@media (forced-colors: active) {
+    .cinza-slider .cinza-slider-play-pause {
+        border-color: ButtonText;
+        background: ButtonFace;
+        color: ButtonText;
+    }
+
+    .cinza-slider .cinza-slider-play-pause:focus-visible {
+        outline-color: Highlight;
+    }
+}
