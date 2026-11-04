@@ -25,6 +25,31 @@ jQuery(document).ready(function($) {
             if ( flkty && flkty.options.autoPlay && !flkty.options.pauseAutoPlayOnHover && !flkty.options.draggable ) {
                 flkty.off('pointerDown', window.Flickity.prototype.stopPlayer);
             }
+
+            if ( !flkty || !flkty.options.autoPlay ) {
+                return;
+            }
+
+            // Visitors who ask their system for less motion get a still slider; the
+            // Play button can still start it (WCAG 2.2.2, 2.3.3).
+            if ( window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ) {
+                flkty.stopPlayer();
+            }
+
+            // Stop autoplay once a keyboard user tabs into the slider, so the slide they are
+            // on doesn't move away from them. Mouse clicks and the Play/Pause button itself
+            // are left alone.
+            this.addEventListener('focusin', function(event) {
+                var target = event.target;
+                if ( target.closest && target.closest('.cinza-slider-play-pause') ) {
+                    return;
+                }
+                var keyboard = true;
+                try { keyboard = target.matches(':focus-visible'); } catch (e) {}
+                if ( keyboard ) {
+                    flkty.stopPlayer();
+                }
+            });
         });
     }, 0);
 

@@ -49,7 +49,9 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
 	
 	$cslider_prevNextButtons = isset($cslider_options['cslider_prevNextButtons']) ? esc_attr($cslider_options['cslider_prevNextButtons']) : '1';
 	$cslider_pageDots = isset($cslider_options['cslider_pageDots']) ? esc_attr($cslider_options['cslider_pageDots']) : '1';
-	$cslider_playPauseButton = isset($cslider_options['cslider_playPauseButton']) && '1' === (string) $cslider_options['cslider_playPauseButton'];
+	// Since 2.1.0 the Play/Pause button shows on every autoplaying slider unless it is
+	// explicitly hidden (WCAG 2.2.2). The old opt-in setting, cslider_playPauseButton, is ignored.
+	$cslider_playPauseButton = ! ( isset($cslider_options['cslider_hidePlayPause']) && '1' === (string) $cslider_options['cslider_hidePlayPause'] );
 	$cslider_draggable = isset($cslider_options['cslider_draggable']) ? esc_attr($cslider_options['cslider_draggable']) : '1';
 	$cslider_hash = isset($cslider_options['cslider_hash']) ? esc_attr($cslider_options['cslider_hash']) : '0';
 	$cslider_mfAccessibility = isset($cslider_options['cslider_mfAccessibility']) ? esc_attr($cslider_options['cslider_mfAccessibility']) : '0';
@@ -151,16 +153,20 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
     // Query: _cslider_fields
     $cslider_fields = get_post_meta($slider_id, '_cslider_fields', true);
     $slides = '';
+    $slide_total = is_array($cslider_fields) ? count($cslider_fields) : 0;
+    $slide_number = 0;
     foreach ( $cslider_fields as $field ) {
+        $slide_number++;
         $layer_link_target = '';
         if($field['cslider_link_target'] == 'new') {
             $layer_link_target = 'target="_blank"';
         }
 
         $layer_img = '';
-        
+        $img_alt = '';
+
         if(!empty($field['cslider_img_id'])) {
-	        
+
 			$img_id = intval($field['cslider_img_id']);
 			$img_url = wp_get_attachment_image_url($img_id, 'full');
 			$img_alt = get_post_meta($img_id, '_wp_attachment_image_alt', true);
@@ -174,7 +180,26 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
 
         $layer_link = '';
         if(!empty($field['cslider_link'])) {
-            $layer_link .= '<a href="'. esc_url( $field['cslider_link'] ) .'" '. $layer_link_target .' class="slider-cell-link"></a>';
+            // The link covers the whole slide and has no text of its own, so name it after
+            // the slide's text, or its image's alt text, or its position (WCAG 2.4.4, 4.1.2).
+            $link_name = '';
+            if(!empty($field['cslider_content'])) {
+                $link_name = trim(preg_replace('/\s+/', ' ', wp_strip_all_tags($field['cslider_content'])));
+            }
+            if('' === $link_name) {
+                $link_name = trim((string) $img_alt);
+            }
+            if('' === $link_name) {
+                /* translators: 1: slide number, 2: number of slides. */
+                $link_name = sprintf(__('Slide %1$d of %2$d', 'cinza-slider'), $slide_number, $slide_total);
+            }
+            if(function_exists('mb_strlen') && mb_strlen($link_name) > 120) {
+                $link_name = rtrim(mb_substr($link_name, 0, 117)) . '…';
+            }
+            if('' !== $layer_link_target) {
+                $link_name .= ' ' . __('(opens in a new tab)', 'cinza-slider');
+            }
+            $layer_link .= '<a href="'. esc_url( $field['cslider_link'] ) .'" '. $layer_link_target .' class="slider-cell-link" aria-label="'. esc_attr( $link_name ) .'"></a>';
         }
 
         $layer_content = '';
@@ -188,7 +213,9 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
 		if(isset($field['cslider_cell_id'])) {
 			$existing_cell_id = $field['cslider_cell_id'];	
 		}
-        $slides .=  '<div id="'. esc_attr( $existing_cell_id ) .'" class="slider-cell">' . $layer_img . $layer_content . '</div>';
+        /* translators: 1: slide number, 2: number of slides. */
+        $slide_label = sprintf(__('%1$d of %2$d', 'cinza-slider'), $slide_number, $slide_total);
+        $slides .=  '<div id="'. esc_attr( $existing_cell_id ) .'" class="slider-cell" role="group" aria-roledescription="'. esc_attr__('slide', 'cinza-slider') .'" aria-label="'. esc_attr( $slide_label ) .'">' . $layer_img . $layer_content . '</div>';
     }
 
     // Dynamic style 
@@ -279,36 +306,15 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
     }
     
     if (boolval($cslider_rfAccessibility)) {
+	    // Since 2.1.0 this option only changes which controls take keyboard focus (see
+	    // frontend-script.js). It no longer hides focus outlines (WCAG 2.4.7); the rings
+	    // in frontend-style.css apply to every slider.
 	    $slider_classes .= "rfAccessibility";
-        $style .=  ".cinza-slider:focus,
-					.cinza-slider:focus-visible,
-					.cinza-slider .flickity-viewport:focus,
-					.cinza-slider .flickity-viewport:focus-visible,
-					.cinza-slider a.slider-cell-link:focus,
-					.cinza-slider a.slider-cell-link:focus-visible {
-					    outline: none !important;
-					}
-					
-					.cinza-slider:focus .focusable,
-					.cinza-slider:focus-visible .focusable {
-						background: pink;
-					}
-					
-					.cinza-slider a.slider-cell-link:focus,
-					.cinza-slider a.slider-cell-link:focus-visible {
-						background: rgba(255, 191, 202, 0.3);
-					}
-					
-					.cinza-slider .flickity-button:focus {
-					    outline: 0 !important;
-					    box-shadow: none !important;
-					    outline: none !important;
-					}";
     }
     
     $style .= "</style>";
 
-    // The new control is opt-in. Missing settings leave existing slider markup unchanged.
+    // Play/Pause shows on every autoplaying slider unless hidden in its settings (WCAG 2.2.2).
     $play_pause_attributes = '';
     if ($cslider_playPauseButton && intval($cslider_autoPlay) > 0) {
         wp_enqueue_script('cslider-play-pause');
@@ -318,6 +324,13 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
     }
 
     // Output
-    $o = '<div class="cinza-slider cinza-slider-'.$slider_id.' '.$slider_classes.' animate__animated animate__fadeIn" data-flickity='. $options . $play_pause_attributes .'>'. $static . $slides .'</div>'. $style;
+    // Name the slider as a carousel region for screen readers (WCAG 4.1.2).
+    $slider_title = trim( wp_strip_all_tags( get_the_title( $slider_id ) ) );
+    if ( '' === $slider_title ) {
+        $slider_title = __('Slideshow', 'cinza-slider');
+    }
+    $region_attributes = ' role="region" aria-roledescription="'. esc_attr__('carousel', 'cinza-slider') .'" aria-label="'. esc_attr( $slider_title ) .'"';
+
+    $o = '<div class="cinza-slider cinza-slider-'.$slider_id.' '.$slider_classes.' animate__animated animate__fadeIn"'. $region_attributes .' data-flickity='. $options . $play_pause_attributes .'>'. $static . $slides .'</div>'. $style;
     return $o;
 }

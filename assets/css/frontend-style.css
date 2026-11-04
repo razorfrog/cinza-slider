@@ -103,7 +103,54 @@ a.slider-cell-link {
     visibility: hidden;
 }
 
-/* Optional autoplay control. These rules affect only sliders with the toggle on. */
+/* Keyboard focus rings (WCAG 2.4.7, since 2.1.0). A white ring with a dark edge shows on
+   light and dark slides alike. :focus-visible keeps them off mouse and touch clicks. */
+.cinza-slider .flickity-button:focus-visible,
+.cinza-slider .flickity-page-dots:focus-visible,
+.cinza-slider .flickity-page-dots .dot:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px #1a1a1a !important;
+}
+
+/* The slides paint over anything drawn on the slider box itself, so its ring is an overlay. */
+.cinza-slider:focus-visible {
+    outline: none !important;
+}
+
+.cinza-slider:focus-visible::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 3px #1a1a1a, inset 0 0 0 6px #fff, inset 0 0 0 9px #1a1a1a;
+    pointer-events: none;
+}
+
+.cinza-slider a.slider-cell-link:focus-visible {
+    outline: 3px solid #fff !important;
+    outline-offset: -6px;
+    box-shadow: inset 0 0 0 9px #1a1a1a; /* dark, white, dark from the edge in */
+}
+
+@media (forced-colors: active) {
+    .cinza-slider:focus-visible {
+        outline: 3px solid Highlight !important;
+        outline-offset: 2px;
+    }
+
+    .cinza-slider .flickity-button:focus-visible,
+    .cinza-slider .flickity-page-dots:focus-visible,
+    .cinza-slider a.slider-cell-link:focus-visible {
+        outline-color: Highlight !important;
+    }
+}
+
+/* Autoplay control. Shown on every autoplaying slider unless hidden in its settings. */
 .cinza-slider[data-cinza-play-pause="true"] {
     position: relative;
 }

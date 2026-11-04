@@ -188,7 +188,7 @@ function cslider_meta_box_options( $post ) {
 
 	$temp_prevNextButtons = isset( $cslider_options['cslider_prevNextButtons'] ) ? esc_attr( $cslider_options['cslider_prevNextButtons'] ) : '1';
 	$temp_pageDots        = isset( $cslider_options['cslider_pageDots'] ) ? esc_attr( $cslider_options['cslider_pageDots'] ) : '1';
-	$temp_playPauseButton = isset( $cslider_options['cslider_playPauseButton'] ) ? esc_attr( $cslider_options['cslider_playPauseButton'] ) : '0';
+	$temp_hidePlayPause = isset( $cslider_options['cslider_hidePlayPause'] ) ? esc_attr( $cslider_options['cslider_hidePlayPause'] ) : '0';
 	$temp_draggable       = isset( $cslider_options['cslider_draggable'] ) ? esc_attr( $cslider_options['cslider_draggable'] ) : '1';
 	$temp_hash            = isset( $cslider_options['cslider_hash'] ) ? esc_attr( $cslider_options['cslider_hash'] ) : '0';
 	$temp_mfAccessibility = isset( $cslider_options['cslider_mfAccessibility'] ) ? esc_attr( $cslider_options['cslider_mfAccessibility'] ) : '1';
@@ -316,13 +316,14 @@ function cslider_meta_box_options( $post ) {
 			</tr>
 			<tr>
 				<td class="cslider-options col-1">
-					<label for="cslider_playPauseButton"><?php esc_html_e( 'Play/Pause button', 'cinza-slider' ); ?></label>
+					<label for="cslider_hidePlayPause"><?php esc_html_e( 'Hide the Play/Pause button', 'cinza-slider' ); ?></label>
 				</td>
 				<td class="cslider-options col-2">
-					<input type="checkbox" name="cslider_playPauseButton" id="cslider_playPauseButton" class="widefat cslider-playPauseButton" value="1" <?php checked( '1', $temp_playPauseButton ); ?> />
+					<input type="checkbox" name="cslider_hidePlayPause" id="cslider_hidePlayPause" class="widefat cslider-hidePlayPause" value="1" aria-describedby="cslider_hidePlayPause_note" <?php checked( '1', $temp_hidePlayPause ); ?> />
 				</td>
-				<td class="cslider-options col-3">
-					<?php esc_html_e( 'Adds a small Play/Pause button in the bottom-right corner. Requires autoPlay and at least two slides. Disabled by default.', 'cinza-slider' ); ?>
+				<td class="cslider-options col-3" id="cslider_hidePlayPause_note">
+					<?php esc_html_e( 'Autoplaying sliders show a small Play/Pause button in the bottom-right corner.', 'cinza-slider' ); ?>
+					<em><strong><?php esc_html_e( 'Not recommended:', 'cinza-slider' ); ?></strong> <?php esc_html_e( "An autoplaying slider without a pause control doesn't meet WCAG 2.2.2 (Pause, Stop, Hide), because keyboard and screen reader users can't stop it. Only hide it if the slider stops on its own within 5 seconds or isn't set to autoplay.", 'cinza-slider' ); ?></em>
 				</td>
 			</tr>
 			<tr>
@@ -366,7 +367,7 @@ function cslider_meta_box_options( $post ) {
 					<input type="checkbox" name="cslider_rfAccessibility" id="cslider_rfAccessibility" class="widefat cslider-rfAccessibility" value="1" <?php checked( '1', $temp_rfAccessibility ); ?> />
 				</td>
 				<td class="cslider-options col-3">
-					Enables Razorfrog keyboard navigation style and script. <em>(<strong>Note:</strong> Made for sliders that display one slide cell at a time)</em>
+					Enables Razorfrog keyboard navigation: Tab moves to the arrows (or the dots when there are no arrows) and to the current slide's link. <em>(<strong>Note:</strong> Made for sliders that display one slide cell at a time)</em>
 				</td>
 			</tr>
 		</tbody>
@@ -909,7 +910,7 @@ function cslider_save_fields_meta_boxes( $post_id ) {
 
 	$cslider_prevNextButtons      = isset( $post_data['cslider_prevNextButtons'] ) ? sanitize_key( $post_data['cslider_prevNextButtons'] ) : '';
 	$cslider_pageDots             = isset( $post_data['cslider_pageDots'] ) ? sanitize_key( $post_data['cslider_pageDots'] ) : '';
-	$cslider_playPauseButton      = isset( $post_data['cslider_playPauseButton'] ) && '1' === $post_data['cslider_playPauseButton'];
+	$cslider_hidePlayPause        = isset( $post_data['cslider_hidePlayPause'] ) && '1' === $post_data['cslider_hidePlayPause'];
 	$cslider_draggable            = isset( $post_data['cslider_draggable'] ) ? sanitize_key( $post_data['cslider_draggable'] ) : '';
 	$cslider_hash                 = isset( $post_data['cslider_hash'] ) ? sanitize_key( $post_data['cslider_hash'] ) : '';
 	$cslider_mfAccessibility      = isset( $post_data['cslider_mfAccessibility'] ) ? sanitize_key( $post_data['cslider_mfAccessibility'] ) : '';
@@ -947,7 +948,7 @@ function cslider_save_fields_meta_boxes( $post_id ) {
 
 	$new_options['cslider_prevNextButtons']  = $cslider_prevNextButtons ? '1' : '0';
 	$new_options['cslider_pageDots']         = $cslider_pageDots ? '1' : '0';
-	$new_options['cslider_playPauseButton']  = $cslider_playPauseButton ? '1' : '0';
+	$new_options['cslider_hidePlayPause']    = $cslider_hidePlayPause ? '1' : '0';
 	$new_options['cslider_draggable']        = $cslider_draggable ? '1' : '0';
 	$new_options['cslider_hash']             = $cslider_hash ? '1' : '0';
 	$new_options['cslider_mfAccessibility']  = $cslider_mfAccessibility ? '1' : '0';

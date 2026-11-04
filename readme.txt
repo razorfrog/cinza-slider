@@ -4,7 +4,7 @@ Tags: slider, slideshow, carousel, metafizzy, flickity
 Requires at least: 5.2
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Cinza Slider is a minimal slider plugin built with <a href="https://flickity.met
 
 Visit our website to view the <a href="https://razorfrog.com/cinza-slider/" target="_blank">plugin demo</a>.
 
-For autoplay sliders, an optional Play/Pause button lets visitors stop and restart the slideshow. Enable it under Options > Navigation in the slider editor. It is disabled by default and appears only when autoplay is enabled and there are at least two slides.
+Sliders are built to meet WCAG 2.2: each slider and slide is named for screen readers, keyboard focus is always visible, and autoplaying sliders show a Play/Pause button, stop when a keyboard user tabs in, and stay still for visitors whose system is set to reduce motion. The Play/Pause button appears when autoplay is on and there are at least two slides. It can be hidden under Options > Navigation, but that isn't recommended.
 
 == Installation ==
 Upload the Cinza Slider plugin to your WordPress site, activate it, and start creating sliders.
@@ -23,11 +23,24 @@ Upload the Cinza Slider plugin to your WordPress site, activate it, and start cr
 == Screenshots ==
 1. Global slider settings
 2. Slide cell fields
-3. Optional Play/Pause button in the bottom-right corner
+3. Play/Pause button in the bottom-right corner
 
 == Changelog ==
 
 Newest first. Dates are YYYY-MM-DD.
+
+= 2.1.0 (2026-11-04) =
+Accessibility release (WCAG 2.2). Existing autoplaying sliders now show the Play/Pause button.
+
+Added
+* Each slider is a named region ("carousel", named after the slider's title), and each slide is labeled "1 of 5" and so on.
+* Slide links now have a name: the slide's text, or else its image's alt text, plus "(opens in a new tab)" when they open one.
+* Visible keyboard focus rings on the slider, its arrows, dots and slide links.
+* Autoplay stops when a keyboard user tabs into the slider, and doesn't start for visitors whose system is set to reduce motion. The Play/Pause button can still start it.
+
+Changed
+* The Play/Pause button now shows on every autoplaying slider. The old "Play/Pause button" checkbox is replaced by "Hide the Play/Pause button", which is off by default and not recommended.
+* The rfAccessibility option no longer hides focus outlines or adds the pink focus highlight. It still controls which slider controls take keyboard focus.
 
 = 2.0.0 (2026-10-30) =
 Razorfrog is now the developer of Cinza Slider. Settings, layout and behavior work as before.
@@ -223,6 +236,9 @@ Fixed
 First release.
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Accessibility release. Autoplaying sliders now show a Play/Pause button, slides and links are named for screen readers, and focus rings are always visible.
 
 = 2.0.0 =
 Razorfrog is now the developer of Cinza Slider. No changes to settings or behavior.
