@@ -30,14 +30,14 @@ function cslider_scripts_frontend_init( $hook ) {
     wp_register_style('flickity', plugins_url('/assets/css/flickity.min.css', __FILE__), array(), '2.2.2', false);
     wp_register_style('flickity-fade', plugins_url('/assets/css/flickity-fade.css', __FILE__), array(), '1.0.0', false);
     wp_register_style('animate', plugins_url('/assets/css/animate.min.css', __FILE__), array(), '4.1.1', false);
-    wp_register_style('cslider-frontend', plugins_url('/assets/css/frontend-style.css', __FILE__), array(), '2.1.0', false);
+    wp_register_style('cslider-frontend', plugins_url('/assets/css/frontend-style.css', __FILE__), array(), '2.1.0.1', false);
 
     // JS
     wp_register_script('flickity', plugins_url('/assets/js/flickity.pkgd.min.js', __FILE__), array('jquery'), '2.3.0', false);
     wp_register_script('flickity-fade', plugins_url('/assets/js/flickity-fade.js', __FILE__), array('jquery'), '1.0.0', false);
     wp_register_script('flickity-hash', plugins_url('/assets/js/flickity-hash.js', __FILE__), array('jquery'), '1.0.4', false);
-    wp_register_script('cslider-frontend', plugins_url('/assets/js/frontend-script.js', __FILE__), array('jquery', 'flickity'), '2.1.0', false);
-    wp_register_script('cslider-play-pause', plugins_url('/assets/js/play-pause.js', __FILE__), array('cslider-frontend', 'flickity'), '1.3.4', false);
+    wp_register_script('cslider-frontend', plugins_url('/assets/js/frontend-script.js', __FILE__), array('jquery', 'flickity'), '2.1.0.1', false);
+    wp_register_script('cslider-play-pause', plugins_url('/assets/js/play-pause.js', __FILE__), array('cslider-frontend', 'flickity'), '2.1.0.1', false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

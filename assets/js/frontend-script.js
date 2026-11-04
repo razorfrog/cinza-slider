@@ -1,3 +1,22 @@
+// Keyboard focus rings: some browsers (Arc, Safari) match :focus-visible after mouse clicks
+// or on page load, so the plugin's rings only show while <html> has .cinza-keyboard, added on a
+// key press and removed on any mouse or touch press. Registered before the page is ready so the
+// first key press counts.
+(function() {
+    var root = document.documentElement;
+    document.addEventListener('keydown', function(event) {
+        if ( event.metaKey || event.ctrlKey || event.altKey ) {
+            return;
+        }
+        root.classList.add('cinza-keyboard');
+    }, true);
+    ['pointerdown', 'mousedown', 'touchstart'].forEach(function(type) {
+        document.addEventListener(type, function() {
+            root.classList.remove('cinza-keyboard');
+        }, { capture: true, passive: true });
+    });
+})();
+
 jQuery(document).ready(function($) {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +63,7 @@ jQuery(document).ready(function($) {
                 if ( target.closest && target.closest('.cinza-slider-play-pause') ) {
                     return;
                 }
-                var keyboard = true;
-                try { keyboard = target.matches(':focus-visible'); } catch (e) {}
-                if ( keyboard ) {
+                if ( document.documentElement.classList.contains('cinza-keyboard') ) {
                     flkty.stopPlayer();
                 }
             });
