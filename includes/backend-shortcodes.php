@@ -325,7 +325,9 @@ function cslider_shortcode( $atts = [], $content = null, $tag = 'cinzaslider' ) 
 
     // Output
     // Name the slider as a carousel region for screen readers (WCAG 4.1.2).
-    $slider_title = trim( wp_strip_all_tags( get_the_title( $slider_id ) ) );
+    // Admin titles are often internal ("Home Hero v4"), so every slider is
+    // called "Slideshow"; the cinza_slider_label filter can change it per slider.
+    $slider_title = trim( wp_strip_all_tags( (string) apply_filters( 'cinza_slider_label', __('Slideshow', 'cinza-slider'), $slider_id ) ) );
     if ( '' === $slider_title ) {
         $slider_title = __('Slideshow', 'cinza-slider');
     }

@@ -33,7 +33,7 @@ Newest first. Dates are YYYY-MM-DD.
 Accessibility release (WCAG 2.2). Existing autoplaying sliders now show the Play/Pause button.
 
 Added
-* Each slider is a named region ("carousel", named after the slider's title), and each slide is labeled "1 of 5" and so on.
+* Each slider is a named region ("Slideshow, carousel"; the cinza_slider_label filter changes the name), and each slide is labeled "1 of 5" and so on.
 * Slide links now have a name: the slide's text, or else its image's alt text, plus "(opens in a new tab)" when they open one.
 * Visible keyboard focus rings on the slider, its arrows, dots and slide links. They show only after a key press, never after a mouse click or tap, and Flickity's blue ring on clicked arrows is gone.
 * Autoplay stops when a keyboard user tabs into the slider, and doesn't start for visitors whose system is set to reduce motion. The Play/Pause button can still start it.
