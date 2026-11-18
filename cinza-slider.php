@@ -4,7 +4,7 @@
  * Plugin Name:       Cinza Slider
  * Plugin URI:        https://razorfrog.com/cinza-slider/
  * Description:       A minimal slider plugin.
- * Version:           2.1.0
+ * Version:           2.2.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Razorfrog Web Design
@@ -15,6 +15,8 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+define( 'CSLIDER_VERSION', '2.2.0' );
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Register scrips for frontend
@@ -52,18 +54,18 @@ function cslider_add_script_to_cpt() {
 	if ( !is_admin() ) return;
 
     // Admin
-    wp_register_style('cslider-admin', plugins_url('/assets/css/backend-admin.css', __FILE__), array(), '1.2.4', false);
+    wp_register_style('cslider-admin', plugins_url('/assets/css/backend-admin.css', __FILE__), array(), CSLIDER_VERSION, false);
     wp_enqueue_style('cslider-admin');
 
     // Register scripts below only on cslider CPT pages only
 	if( $post_type != 'cinza_slider' ) return;
 
     // CSS
-    wp_register_style('cslider-backend-css', plugins_url('/assets/css/backend-style.css', __FILE__), array(), '1.2.4', false);
+    wp_register_style('cslider-backend-css', plugins_url('/assets/css/backend-style.css', __FILE__), array(), CSLIDER_VERSION, false);
     wp_enqueue_style('cslider-backend-css');
 
     // JS
-    wp_enqueue_script('cslider-backend-js', plugins_url('/assets/js/backend-script.js', __FILE__), array('jquery'), '1.2.4', false);
+    wp_enqueue_script('cslider-backend-js', plugins_url('/assets/js/backend-script.js', __FILE__), array('jquery'), CSLIDER_VERSION, false);
     wp_enqueue_media();
 }
 

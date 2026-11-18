@@ -247,7 +247,8 @@
 .wp-core-ui.post-type-cinza_slider form#post select:focus, 
 .wp-core-ui.post-type-cinza_slider form#post textarea:focus,
 .wp-core-ui.post-type-cinza_slider form#post .button:focus,
-#cslider-credits a:focus {
+.cslider-rf-logo:focus,
+.cslider-rf-plugins a:focus {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
@@ -326,7 +327,8 @@
 
 #cslider-documentation .inside,
 #cslider-shortcode .inside,
-#cslider-credits .inside {
+#cslider-razorfrog .inside,
+#cslider-more-plugins .inside {
     overflow: hidden;
     padding: 12px;
     margin: 0;
@@ -337,31 +339,53 @@
     text-align: center;
 }
 
-/* Credits */
+/* Razorfrog boxes */
 
-#cslider-credits .inside {
-    overflow: hidden;
-    padding: 12px;
+#cslider-razorfrog .inside p {
+    margin: 10px 0;
+}
+
+.cslider-rf-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+    text-decoration: none;
+}
+
+.cslider-rf-logo img {
+    border-radius: 8px;
+}
+
+.cslider-rf-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 0 !important;
+}
+
+.cslider-rf-plugins {
     margin: 0;
 }
 
-#cslider-credits a {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    padding: 10px;
+.cslider-rf-plugins li {
     margin: 0 0 10px;
 }
 
-#cslider-credits a:last-child {
-	margin-bottom: 0px;
+.cslider-rf-plugins li:last-child {
+    margin-bottom: 0;
 }
 
-#cslider-credits a img {
-	width: 40px;
-	margin-right: 15px;
-	border-radius: 5px;
+.cslider-rf-plugins a {
+    font-weight: 600;
+}
+
+.cslider-rf-plugins span {
+    display: block;
+    color: #646970;
+    font-size: 12px;
 }
 
 /* Others */
