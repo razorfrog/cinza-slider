@@ -166,7 +166,8 @@ function cslider_add_fields_meta_boxes() {
 	add_meta_box( 'cslider-static', 'Static Layer', 'cslider_meta_box_static', 'cinza_slider', 'normal', 'default' );
 	add_meta_box( 'cslider-shortcode', 'Shortcode', 'cslider_meta_box_shortcode', 'cinza_slider', 'side', 'default' );
 	add_meta_box( 'cslider-documentation', 'Documentation', 'cslider_meta_box_doc', 'cinza_slider', 'side', 'default' );
-	add_meta_box( 'cslider-credits', 'Developers', 'cslider_meta_box_credits', 'cinza_slider', 'side', 'default' );
+	add_meta_box( 'cslider-razorfrog', 'Razorfrog', 'cslider_meta_box_razorfrog', 'cinza_slider', 'side', 'default' );
+	add_meta_box( 'cslider-more-plugins', 'More free plugins from Razorfrog', 'cslider_meta_box_more_plugins', 'cinza_slider', 'side', 'default' );
 	remove_meta_box( 'rank_math_metabox', 'cinza_slider', 'normal' );
 }
 
@@ -851,21 +852,78 @@ function cslider_meta_box_doc( $post ) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Meta Box: _cslider_doc
+// Meta Box: Razorfrog and more plugins
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function cslider_meta_box_credits( $post ) {
-	$metafizzy_logo = plugin_dir_url( dirname( __FILE__ ) ) . 'assets/images/metafizzy-icon.png';
-	$razorfrog_logo = plugin_dir_url( dirname( __FILE__ ) ) . 'assets/images/razorfrog-icon-turquoise.png';
+/**
+ * Razorfrog box: who makes the plugin, plus help and review links.
+ *
+ * @param WP_Post $post Current post.
+ */
+function cslider_meta_box_razorfrog( $post ) {
+	$icon = plugin_dir_url( dirname( __FILE__ ) ) . 'assets/images/razorfrog-icon-turquoise.png';
 	?>
-	<a href="<?php echo esc_url( 'https://metafizzy.co/' ); ?>" class="button" target="_blank" rel="noopener">
-		<img src="<?php echo esc_url( $metafizzy_logo ); ?>" alt="Metafizzy" />
-		<span>Metafizzy</span>
+	<a href="<?php echo esc_url( 'https://razorfrog.com/' ); ?>" class="cslider-rf-logo" target="_blank" rel="noopener noreferrer">
+		<img src="<?php echo esc_url( $icon ); ?>" alt="" width="40" height="40" />
+		<span><?php esc_html_e( 'Razorfrog', 'cinza-slider' ); ?></span>
 	</a>
-	<a href="<?php echo esc_url( 'https://razorfrog.com/' ); ?>" class="button" target="_blank" rel="noopener">
-		<img src="<?php echo esc_url( $razorfrog_logo ); ?>" alt="Razorfrog" />
-		<span>Razorfrog</span>
-	</a>
+	<p><?php esc_html_e( 'Cinza Slider is a free plugin by Razorfrog, a web agency in San Francisco.', 'cinza-slider' ); ?></p>
+	<p class="cslider-rf-buttons">
+		<a class="button" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/cinza-slider/' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Get help', 'cinza-slider' ); ?></a>
+		<a class="button" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/cinza-slider/reviews/#new-post' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Leave a review', 'cinza-slider' ); ?></a>
+	</p>
+	<?php
+}
+
+/**
+ * The other free Razorfrog plugins on wordpress.org, minus this one.
+ *
+ * @return array Slug => name and description.
+ */
+function cslider_razorfrog_plugins() {
+	return array(
+		'cinza-grid' => array(
+			'name' => 'Cinza Grid',
+			'desc' => __( 'A minimal grid plugin built with Isotope.', 'cinza-slider' ),
+		),
+		'easy-content-lists' => array(
+			'name' => 'Easy Content Lists',
+			'desc' => __( 'Shortcodes for listing your pages, posts, taxonomies and tags.', 'cinza-slider' ),
+		),
+		'woo-product-dropdown-widget' => array(
+			'name' => 'Product Dropdown Widget for WooCommerce',
+			'desc' => __( 'A dropdown of WooCommerce products, by category, sorted by price, reviews or more.', 'cinza-slider' ),
+		),
+		'bulk-convert-post-format' => array(
+			'name' => 'Bulk Convert Post Format',
+			'desc' => __( 'Converts all posts in a category to a chosen post format.', 'cinza-slider' ),
+		),
+		'spinitron-player' => array(
+			'name' => 'Spinitron Player',
+			'desc' => __( 'A streaming player for radio stations that use Spinitron.', 'cinza-slider' ),
+		),
+		'link-in-bio-report' => array(
+			'name' => 'Link in Bio Report',
+			'desc' => __( 'Counts taps on your Instagram links page and emails a weekly report.', 'cinza-slider' ),
+		),
+	);
+}
+
+/**
+ * More free plugins box.
+ *
+ * @param WP_Post $post Current post.
+ */
+function cslider_meta_box_more_plugins( $post ) {
+	?>
+	<ul class="cslider-rf-plugins">
+		<?php foreach ( cslider_razorfrog_plugins() as $slug => $plugin ) : ?>
+			<li>
+				<a href="<?php echo esc_url( 'https://wordpress.org/plugins/' . $slug . '/' ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $plugin['name'] ); ?></a>
+				<span><?php echo esc_html( $plugin['desc'] ); ?></span>
+			</li>
+		<?php endforeach; ?>
+	</ul>
 	<?php
 }
 
